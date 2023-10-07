@@ -45,7 +45,7 @@ app.post("/login", async (req, res) => {
     const passOk = bcrypt.compareSync(password, user.password);
     if (passOk) {
       jwt.sign(
-        { email: user.email, id: user._id, name: user.name },
+        { email: user.email, id: user._id},
         jwtSecret,
         {},
         (err, token) => {
@@ -64,11 +64,11 @@ app.post("/login", async (req, res) => {
 app.get("/profile", (req, res) => {
   console.log(req.cookies);
   const { token } = req.cookies;
-  console.log(token);
   if (token) {
-    jwt.verify(token, jwtSecret, (err, userInfo) => {
+    jwt.verify(token, jwtSecret, async(err, userData) => {
       if (err) throw err;
-      res.json(userInfo);
+      const {name,email,_id} = await User.findById(userData.id)
+      res.json({name,email,_id});
     });
   }
 });
@@ -76,5 +76,5 @@ app.get("/profile", (req, res) => {
 app.get("/", (req, res) => {
   res.json("test");
 });
-
+ 
 app.listen(4000);

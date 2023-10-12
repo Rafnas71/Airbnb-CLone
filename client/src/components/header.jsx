@@ -4,7 +4,7 @@ import { UserContext } from "../UserContext";
 
 export default function Header() {
   const { user } = useContext(UserContext)
-  console.log("Context",user)
+  console.log("Context", user)
   return (
     <div>
       <header className="flex justify-between">
@@ -52,7 +52,7 @@ export default function Header() {
         </div>
 
         {/* menu and profile */}
-        <Link to="/login" className="flex items-center gap-2 border border-gray-300 rounded-full px-4 py-2">
+        <Link to={user ? "/account" : "/login"} className="flex items-center gap-2 border border-gray-300 rounded-full px-4 py-2">
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -84,11 +84,11 @@ export default function Header() {
             </svg>
           </div>
           {/* {console.log(user)} */}
-          
+
           {!!user && <div>{user.name}</div>}
 
         </Link>
       </header>
     </div>
-  ) 
+  )
 }

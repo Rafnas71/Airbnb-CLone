@@ -7,11 +7,15 @@ const User = require("./models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
+const download = require("image-downloader");
+const multer = require("multer");
+const fs= require('fs')
 
 app.use(express.json());
 app.use(cookieParser());
+app.use("/uploads", express.static(__dirname + "/uploads"));
 const bcryptSalt = bcrypt.genSaltSync(10);
-const jwtSecret = "rafnasnknndknknknkncds";
+const jwtSecret = "bookingabcdef";
 app.use(
   cors({
     credentials: true,
@@ -45,7 +49,7 @@ app.post("/login", async (req, res) => {
     const passOk = bcrypt.compareSync(password, user.password);
     if (passOk) {
       jwt.sign(
-        { email: user.email, id: user._id},
+        { email: user.email, id: user._id },
         jwtSecret,
         {},
         (err, token) => {
@@ -61,25 +65,50 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.get("/profile", async(req, res) => {
+app.get("/profile", async (req, res) => {
   // console.log("/profile",req.cookies);
   const { token } = req.cookies;
   if (token) {
-    await jwt.verify(token, jwtSecret, async(err, userData) => {
+    await jwt.verify(token, jwtSecret, async (err, userData) => {
       if (err) throw err;
-      const {name,email,_id} = await User.findById(userData.id)
-      res.json({name,email,_id});
+      const { name, email, _id } = await User.findById(userData.id);
+      res.json({ name, email, _id });
     });
   }
 });
 
-app.post("/logout",(req,res)=>{
-  console.log("logout fn")
-  res.cookie("token","").json(true)
-})
+app.post("/logout", (req, res) => {
+  console.log("logout fn");
+  res.cookie("token", "").json(true);
+});
+
+app.post("/upload-by-link", async (req, res) => {
+  const { link } = req.body;
+  console.log("Link" + link);
+  const filename = "Photos" + Date.now() + ".jpg";
+  await download.image({
+    url: link,
+    dest: __dirname + "/uploads/" + filename,
+  });
+  res.json(filename);
+});
+
+const upload = multer({ dest: "uploads/" });
+app.post("/upload", upload.array("photos", 100), (req, res) => {
+  const uploadedPhotos = []
+  for (i = 0; i < req.files.length; i++) {
+    const { path, originalname } = req.files[i]
+    const parts = originalname.split('.')
+    const ext = parts[parts.length-1]
+    const newPath = path+'.'+ext
+    fs.renameSync(path,newPath)
+    uploadedPhotos.push(newPath.replace('uploads\\',''))
+  }
+  res.json(uploadedPhotos)
+});
 
 app.get("/", (req, res) => {
   res.json("test");
 });
- 
+
 app.listen(4000);

@@ -133,14 +133,14 @@ export default function PlacesPage() {
               {console.log("Addedphotos" + photos + photos.length)}
               {photos.length > 0 &&
                 photos.map((link) => (
-                  <div key={link} className="h-32 flex ">
+                  <div key={link} className="h-32 flex">
                     <img
                       className="rounded-2xl w-full object-fit: fill" 
                       src={"http://localhost:4000/uploads/" + link}
                     />
                   </div>
                 ))}
-              <label className=" cursor-pointer flex p-2 items-center justify-center gap-1 border bg-transparent rounded-2xl text-xl">
+              <label className="h-32 cursor-pointer flex p-2 items-center justify-center gap-1 border bg-transparent rounded-2xl text-xl">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -155,7 +155,7 @@ export default function PlacesPage() {
                     d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
                   />
                 </svg>
-                <input type="file" multiple className="hidden" onChange={uploadPhoto} />
+                <input type="file" multiple className="hidden " onChange={uploadPhoto} />
                 Upload
               </label>
             </div>
@@ -168,14 +168,14 @@ export default function PlacesPage() {
             ></textarea>
 
             {preInput("Perks", "select all the perks of your place")}
-            <Perks />
+            <Perks selected={perks} onChange={setPerks} />
             {preInput("Extra Info", "House rules , etc")}
             <textarea
               className="border border-gray-200 w-full"
               value={extraInfo}
               onChange={(ev) => setExtraInfo(ev.target.value)}
             ></textarea>
-
+ 
             {preInput(
               "Check In & Out Time and Max. Guests",
               "Add check in and out times, remember to have some time window for cleaning the room between the guests"

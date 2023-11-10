@@ -1,8 +1,18 @@
-export default function Perks(selected,onChange) {
+/* eslint-disable react/prop-types */
+export default function Perks({selected, onChange}) {
+  function handlecbClick(ev) {
+    const { checked, name } = ev.target;
+    if (checked) {
+      onChange([...selected, name]);
+    } else {
+      onChange([...selected.filter((selectedName) => selectedName != name)]);
+    }
+  }
+
   return (
     <div className="grid mt-2  gap-1 grid-col-2 md:grid-cols-3 lg:grid-cols-4">
       <label className="flex gap-1 border p-4 text-center">
-        <input type="checkbox"></input>
+        <input type="checkbox" name="wifi" onChange={handlecbClick}></input>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -20,7 +30,7 @@ export default function Perks(selected,onChange) {
         <span> Wifi</span>
       </label>
       <label className="flex gap-1 border p-4 text-center">
-        <input type="checkbox"></input>
+        <input type="checkbox" name="parking" onChange={handlecbClick}></input>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -38,7 +48,7 @@ export default function Perks(selected,onChange) {
         <span> Free parking</span>
       </label>
       <label className="flex gap-1 border p-4 text-center">
-        <input type="checkbox"></input>
+        <input type="checkbox" name="tv" onChange={handlecbClick}></input>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -57,7 +67,7 @@ export default function Perks(selected,onChange) {
         <span> TV</span>
       </label>
       <label className="flex gap-1 border p-4 text-center">
-        <input type="checkbox"></input>
+        <input type="checkbox" name="pets" onChange={handlecbClick}></input>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -75,7 +85,7 @@ export default function Perks(selected,onChange) {
         <span> Pets</span>
       </label>
       <label className="flex gap-1 border p-4 text-center">
-        <input type="checkbox"></input>
+        <input type="checkbox" name="entrance" onChange={handlecbClick}></input>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

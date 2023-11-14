@@ -2,19 +2,21 @@ import { useState } from "react";
 import axios from "axios";
 
 // eslint-disable-next-line react/prop-types
-export default function PhotosUploader({photos,setPhotos}) {
-  const [photoLink, setPhotoLink] = useState("")        
-  
+export default function PhotosUploader({ photos, setPhotos }) {
+  const [photoLink, setPhotoLink] = useState("");
+
   async function addPhotoByLink(ev) {
     ev.preventDefault();
     console.log(photoLink);
-    const { data: filename } = await axios.post("/upload-by-link", {
-      link: photoLink,
-    });
-    setPhotos((prev) => {
-      return [...prev, filename];
-    });
-    setPhotoLink("");
+    if (photoLink) {
+      const { data: filename } = await axios.post("/upload-by-link", {
+        link: photoLink,
+      });
+      setPhotos((prev) => {
+        return [...prev, filename];
+      });
+      setPhotoLink("");
+    }
   }
 
   function uploadPhoto(ev) {

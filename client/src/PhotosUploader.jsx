@@ -56,7 +56,7 @@ export default function PhotosUploader({ photos, setPhotos }) {
       </div>
 
       <div className="mt-2 item-center grid grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-1">
-        {console.log("Addedphotos" + photos + photos.length)}
+        {console.log("Addedphotos"+ photos.length)}
         {photos.length > 0 &&
           photos.map((link) => (
             <div key={link} className="h-32 flex">

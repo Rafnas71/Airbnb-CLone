@@ -12,7 +12,7 @@ export default function Perks({selected, onChange}) {
   return (
     <div className="grid mt-2  gap-1 grid-col-2 md:grid-cols-3 lg:grid-cols-4">
       <label className="flex gap-1 border p-4 text-center">
-        <input type="checkbox" name="wifi" onChange={handlecbClick}></input>
+        <input type="checkbox" checked={selected.includes("wifi")} name="wifi" onChange={handlecbClick}></input>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -30,7 +30,7 @@ export default function Perks({selected, onChange}) {
         <span> Wifi</span>
       </label>
       <label className="flex gap-1 border p-4 text-center">
-        <input type="checkbox" name="parking" onChange={handlecbClick}></input>
+        <input type="checkbox" checked={selected.includes("parking")} name="parking" onChange={handlecbClick}></input>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -48,7 +48,7 @@ export default function Perks({selected, onChange}) {
         <span> Free parking</span>
       </label>
       <label className="flex gap-1 border p-4 text-center">
-        <input type="checkbox" name="tv" onChange={handlecbClick}></input>
+        <input type="checkbox" checked={selected.includes("tv")} name="tv" onChange={handlecbClick}></input>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -65,9 +65,9 @@ export default function Perks({selected, onChange}) {
         </svg>
 
         <span> TV</span>
-      </label>
+      </label> 
       <label className="flex gap-1 border p-4 text-center">
-        <input type="checkbox" name="pets" onChange={handlecbClick}></input>
+        <input type="checkbox" checked={selected.includes("pets")} name="pets" onChange={handlecbClick}></input>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -85,7 +85,7 @@ export default function Perks({selected, onChange}) {
         <span> Pets</span>
       </label>
       <label className="flex gap-1 border p-4 text-center">
-        <input type="checkbox" name="entrance" onChange={handlecbClick}></input>
+        <input type="checkbox" checked={selected.includes("entrance")} name="entrance" onChange={handlecbClick}></input>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"

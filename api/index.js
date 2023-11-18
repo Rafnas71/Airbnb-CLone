@@ -44,7 +44,7 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
   userDoc = await User.find({ email });
   const user = userDoc[0];
-  console.log(userDoc);
+  // console.log(userDoc);
   if (userDoc) {
     // res.json("pass ok");
     const passOk = bcrypt.compareSync(password, user.password);
@@ -110,7 +110,6 @@ app.post("/upload", upload.array("photos", 100), (req, res) => {
 
 app.post("/places", (req, res) => {
   const { token } = req.cookies;
-  console.log(req.body);
   const {
     title,
     address,
@@ -138,6 +137,64 @@ app.post("/places", (req, res) => {
         maxguests: maxGuests,
       });
       res.json(placeDoc);
+    });
+  }
+});
+
+app.get("/places", (req, res) => {
+  const { token } = req.cookies;
+  if (token) {
+    jwt.verify(token, jwtSecret, async (err, userData) => {
+      if (err) throw err;
+      const places = await Places.find({ owner: userData.id });
+      res.json(places);
+    });
+  }
+});
+
+app.get("/places/:id", async (req, res) => {
+  const { id } = req.params;
+  res.json(await Places.findById(id));
+});
+
+app.put("/places", (req, res) => {
+  console.log('places put req')
+  const { token } = req.cookies;
+  const {
+    id,
+    title,
+    address,
+    photos,
+    description,
+    perks,
+    extraInfo,
+    checkIn,
+    checkOut,
+    maxGuests,
+  } = req.body;
+
+  if (token) {
+    jwt.verify(token, jwtSecret, async (err, userData) => {
+      if (err) throw err;
+      const placeDoc = await Places.findById(id);
+      // console.log(userData.id)
+      // console.log(placeDoc.owner)
+      if (userData.id === placeDoc.owner.toString()) {
+
+        placeDoc.set({
+          title,
+          address,
+          photos,
+          description,
+          perks,
+          extraInfo,
+          checkIn,
+          checkOut,
+          maxGuests,
+        })
+        placeDoc.save();
+        res.json('place updated')
+      }
     });
   }
 });

@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import PhotosUploader from "../PhotosUploader";
 import Perks from "../Perks";
 import AccountNav from "../components/AccountNav";
 
 export default function PlacesFormPage() {
+  const { id } = useParams();
   const [title, setTitle] = useState("");
   const [address, setAddress] = useState("");
   const [photos, setPhotos] = useState([]);
@@ -17,6 +18,23 @@ export default function PlacesFormPage() {
   const [maxGuests, setMaxGuests] = useState(1);
   const [redirectToPlaces, setRedirectToPlaces] = useState(false);
 
+  useEffect(() => {
+    if (!id) {
+      return;
+    }
+    axios.get("/places/" + id).then((response) => {
+      const { data } = response;
+      setTitle(data.title);
+      setAddress(data.address);
+      setPhotos(data.photos)
+      setDescription(data.description);
+      setExtraInfo(data.extrainfo);//in db not camelcased
+      setPerks(data.perks);
+      setCheckIn(data.checkin);
+      setCheckOut(data.checkout);
+      setMaxGuests(data.maxguests);
+    });
+  }, []);
   function inputHeader(text) {
     return <h2 className="text-xl mt-2">{text}</h2>;
   }
@@ -34,7 +52,7 @@ export default function PlacesFormPage() {
     );
   }
 
-  async function addNewPlace(ev) {
+  async function savePlace(ev) {
     ev.preventDefault();
     const placeData = {
       title,
@@ -42,15 +60,26 @@ export default function PlacesFormPage() {
       photos,
       description,
       perks,
-      extraInfo,
-      checkIn,
-      checkOut,
-      maxGuests,
+      extrainfo:extraInfo,
+      checkin:checkIn,
+      checkout:checkOut,
+      maxguests:maxGuests,
     };
-    console.log("axios places");
-    axios.post("/places", placeData).then(() => {
-      setRedirectToPlaces(true);
-    });
+    if (id) {
+      //update
+      axios.put("/places", {
+        id,//places id
+        ...placeData,
+      }).then(()=>{
+        setRedirectToPlaces(true);
+      });
+    } else {
+      //new place
+      console.log("axios places");
+      axios.post("/places", placeData).then(() => {
+        setRedirectToPlaces(true);
+      });
+    }
   }
   console.log("redirect" + redirectToPlaces);
 
@@ -61,7 +90,7 @@ export default function PlacesFormPage() {
   return (
     <div>
       <AccountNav />
-      <form onSubmit={addNewPlace}>
+      <form onSubmit={savePlace}>
         {preInput(
           "Title",
           "Title for your place.should be short and catchy as in advertisement"
@@ -86,7 +115,7 @@ export default function PlacesFormPage() {
 
         {preInput("Description", "Description of the place")}
         <textarea
-          className="border border-gray-200 w-full"
+          className=""
           value={description}
           onChange={(ev) => setDescription(ev.target.value)}
         ></textarea>

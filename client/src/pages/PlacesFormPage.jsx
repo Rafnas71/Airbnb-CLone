@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Navigate, useParams } from "react-router-dom";
-import PhotosUploader from "../PhotosUploader";
+import PhotosUploader from "../components/PhotosUploader"
 import Perks from "../Perks";
 import AccountNav from "../components/AccountNav";
 
@@ -16,6 +16,7 @@ export default function PlacesFormPage() {
   const [checkIn, setCheckIn] = useState();
   const [checkOut, setCheckOut] = useState();
   const [maxGuests, setMaxGuests] = useState(1);
+  const [price, setPrice] = useState(0)
   const [redirectToPlaces, setRedirectToPlaces] = useState(false);
 
   useEffect(() => {
@@ -33,6 +34,7 @@ export default function PlacesFormPage() {
       setCheckIn(data.checkin);
       setCheckOut(data.checkout);
       setMaxGuests(data.maxguests);
+      setPrice(data.price)
     });
   }, []);
   function inputHeader(text) {
@@ -60,17 +62,18 @@ export default function PlacesFormPage() {
       photos,
       description,
       perks,
-      extrainfo:extraInfo,
-      checkin:checkIn,
-      checkout:checkOut,
-      maxguests:maxGuests,
+      extrainfo: extraInfo,
+      checkin: checkIn,
+      checkout: checkOut,
+      maxguests: maxGuests,
+      price: price
     };
     if (id) {
       //update
       axios.put("/places", {
         id,//places id
         ...placeData,
-      }).then(()=>{
+      }).then(() => {
         setRedirectToPlaces(true);
       });
     } else {
@@ -133,7 +136,7 @@ export default function PlacesFormPage() {
           "Check In & Out Time and Max. Guests",
           "Add check in and out times, remember to have some time window for cleaning the room between the guests"
         )}
-        <div className="mt-2 grid sm:grid-cols-3 gap-1">
+        <div className="mt-2 grid grid-cols-2 md:grid-cols lg:grid-cols-4 gap-1">
           <div className="mt-2">
             <h3>Check In Time</h3>
             <input
@@ -158,6 +161,14 @@ export default function PlacesFormPage() {
               type="number"
               value={maxGuests}
               onChange={(ev) => setMaxGuests(ev.target.value)}
+            />
+          </div>
+          <div className="mt-2">
+            <h3>Price per night</h3>
+            <input
+              type="number"
+              value={price}
+              onChange={(ev) => setPrice(ev.target.value)}
             />
           </div>
         </div>

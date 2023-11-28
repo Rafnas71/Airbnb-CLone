@@ -9,7 +9,7 @@ export default function Header() {
     <div>
       <header className="flex justify-between">
         {/* Logo and Brand Name*/}
-        <a href="/" className="flex items-center">
+        <a href="/" className="flex items-center ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

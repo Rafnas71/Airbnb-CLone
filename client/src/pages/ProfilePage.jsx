@@ -11,7 +11,7 @@ export default function ProfilePage() {
 
 
   useEffect(() => {
-    console.log("ready"+ready)
+    console.log("ready"+ready)  
   }, [ready]);
 
   let { subpage } = useParams();
@@ -26,6 +26,7 @@ export default function ProfilePage() {
     setRedirect("/");
     setUser(null);
   }
+  
   if (!ready) {
     return "Loading...";
   }

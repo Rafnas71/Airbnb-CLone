@@ -8,7 +8,7 @@ export default function PlacesPage() {
   const [places, setPlaces] = useState([]);
 
   useEffect(() => {
-    axios.get("/places").then(({ data }) => {
+    axios.get("/user-places").then(({ data }) => {
       console.log(data)
       setPlaces(data);
     });
@@ -42,13 +42,13 @@ export default function PlacesPage() {
       <div className="mt-4">
         {places.length > 0 &&
           places.map((place) => (
-            <Link to={'/account/places/'+place._id} key={place._id} className="flex mb-2 border rounded-xl p-4 gap-4 bg-gray-100 ">
+            <Link to={'/account/places/' + place._id} key={place._id} className="flex mb-2 border rounded-xl p-4 gap-4 bg-gray-100 ">
               <div className=" flex h-32 w-32 shrink-0 bg-gray-200 object-cover rounded-2xl">
-                {places.length > 0 && <img  className="" src={"http://localhost:4000/uploads/"+place.photos[0]} alt="" />}
+                {places.length > 0 && <img className="" src={"http://localhost:4000/uploads/" + place.photos[0]} alt="" />}
               </div>
               <div className="text-start grow-0 shrink">
                 <h2 className="text-xl">{place.title}</h2>
-                <p className="text-sm mt-2">{place.description}</p>
+                <p className="text-sm mt-2">{place.description.length > 200 ? `${place.description.substring(0, 200)}...`:place.description}{place.description.length > 200 ? `${place.description.substring(0, 200)}...`:place.description}</p>
               </div>
             </Link>
           ))}

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import AccountNav from "../components/AccountNav";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Image from "../components/Image";
 
 export default function PlacesPage() {
   const [places, setPlaces] = useState([]);
@@ -44,7 +45,7 @@ export default function PlacesPage() {
           places.map((place) => (
             <Link to={'/account/places/' + place._id} key={place._id} className="flex mb-2 border rounded-xl p-4 gap-4 bg-gray-100 ">
               <div className=" flex h-32 w-32 shrink-0 bg-gray-200 object-cover rounded-2xl">
-                {places.length > 0 && <img className="" src={"http://localhost:4000/uploads/" + place.photos[0]} alt="" />}
+                {places.length > 0 && <Image className="" src={place.photos[0]} alt="" />}
               </div>
               <div className="text-start grow-0 shrink">
                 <h2 className="text-xl">{place.title}</h2>

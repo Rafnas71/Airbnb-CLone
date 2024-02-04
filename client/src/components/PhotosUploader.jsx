@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import axios from "axios";
+import Image from "./Image";
 
 // eslint-disable-next-line react/prop-types
 export default function PhotosUploader({ photos, setPhotos }) {
@@ -72,9 +74,9 @@ export default function PhotosUploader({ photos, setPhotos }) {
         {photos.length > 0 &&
           photos.map((link) => (
             <div key={link} className="h-32 flex relative">
-              <img
+              <Image
                 className="rounded-2xl w-full object-fit: fill"
-                src={"http://localhost:4000/uploads/" + link}
+                src={link}
               />
               <button
                 onClick={() => removePhoto(link)}

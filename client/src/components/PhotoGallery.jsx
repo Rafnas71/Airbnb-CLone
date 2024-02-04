@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Image from "./Image";
 
 const PhotoGallery = ({ place }) => {
   const [showAllPhotos, setShowAllPhotos] = useState(false);
@@ -21,7 +22,7 @@ const PhotoGallery = ({ place }) => {
             place.photos.map((photo) => (
               // eslint-disable-next-line react/jsx-key
               <div className="">
-                <img src={"http://localhost:4000/uploads/" + photo} alt="" />
+                <Image src={photo} alt="" />
               </div>
             ))}
         </div>
@@ -34,10 +35,10 @@ const PhotoGallery = ({ place }) => {
         <div className="">
           {place.photos?.[0] && (
             <div className="">
-              <img
+              <Image
                 onClick={() => setShowAllPhotos(true)}
                 className="aspect-square object-cover cursor-pointer"
-                src={"http://localhost:4000/uploads/" + place.photos[0]}
+                src={place.photos[0]}
                 alt=""
               />
             </div>
@@ -45,19 +46,19 @@ const PhotoGallery = ({ place }) => {
         </div>
         <div className="grid">
           {place.photos?.[1] && (
-            <img
+            <Image
               onClick={() => setShowAllPhotos(true)}
               className="aspect-square object-cover cursor-pointer "
-              src={"http://localhost:4000/uploads/" + place.photos[1]}
+              src={place.photos[1]}
               alt=""
             />
           )}
           <div className="overflow-hidden">
             {place.photos?.[2] && (
-              <img
+              <Image
                 onClick={() => setShowAllPhotos(true)}
                 className="aspect-square cursor-pointer object-cover relative top-2"
-                src={"http://localhost:4000/uploads/" + place.photos[2]}
+                src={place.photos[2]}
                 alt=""
               />
             )}

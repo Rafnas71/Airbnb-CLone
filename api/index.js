@@ -252,12 +252,12 @@ app.put("/api/places", (req, res) => {
 });
 
 app.get("/api/places", async (req, res) => {
-  await mongoose.connect(process.env.MONGO_URL);
+  mongoose.connect(process.env.MONGO_URL);
   res.json(await Places.find({}));
 });
 
 app.post("/bookings", async (req, res) => {
-  await mongoose.connect(process.env.MONGO_URL);
+  mongoose.connect(process.env.MONGO_URL);
   const userData = await getUserDataFromToken(req);
   const { place, checkIn, checkOut, numberOfGuests, name, phone, price } =
     req.body;

@@ -139,7 +139,7 @@ app.post("/api/upload-by-link", async (req, res) => {
   res.json(url);
 });
 
-const photosMiddleware = multer({ dest: "tmp" });
+const photosMiddleware = multer({ dest: "/tmp" });
 app.post(
   "/api/upload",
   photosMiddleware.array("photos", 100),

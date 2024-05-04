@@ -13,7 +13,7 @@ const download = require("image-downloader");
 const multer = require("multer");
 const { S3Client, PutObjectCommand } = require("@aws-sdk/client-s3");
 const fs = require("fs");
-const mime = require("mime-types");
+const mime = require('mime-types')
 
 app.use(express.json());
 app.use(cookieParser());
@@ -113,8 +113,6 @@ app.get("/api/profile", async (req, res) => {
       const { name, email, _id } = await User.findById(userData.id);
       res.json({ name, email, _id });
     });
-  } else {
-    res.json(null);
   }
 });
 
@@ -130,11 +128,11 @@ app.post("/api/upload-by-link", async (req, res) => {
   console.log("here");
   await download.image({
     url: link,
-    dest: "/tmp/" + filename,
+    dest: __dirname + "/tmp/" + filename,
   });
 
   const url = await uploadToS3(
-    "/tmp/" + filename,
+    __dirname + "/tmp/" + filename,
     filename,
     mime.lookup(__dirname + "/tmp/" + filename)
   );

@@ -74,7 +74,7 @@ export default function PhotosUploader({ photos, setPhotos }) {
         {photos.length > 0 &&
           photos.map((link) => (
             <div key={link} className="h-32 flex relative">
-              <Image 
+              <Image
                 className="rounded-2xl w-full object-fit: fill"
                 src={link}
               />

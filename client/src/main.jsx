@@ -7,7 +7,7 @@ import { UserContextProvider } from './UserContext.jsx'
 import axios from 'axios'
 
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
+axios.defaults.baseURL = "http://localhost:4000";
  
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
